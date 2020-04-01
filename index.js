@@ -1,10 +1,21 @@
+import compress from 'compression'
+import helmet from 'helmet'
+import cors from 'cors'
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
 import config from './api/helpers/config'
 import authorizationRoute from './api/routes/authorization.routes'
 import house from './api/routes/house.routes'
 import topic from './api/routes/topic.routes'
+import review from './api/routes/review.routes'
+
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(compress());
+app.use(helmet());
+app.use(cors());
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', req.headers.origin);
@@ -43,8 +54,9 @@ const registerAuthenticationMiddleware = (req, res, next) => {
 };
 
 app.use(config.prefix_api + '/sign', authorizationRoute);
-app.use(config.prefix_api + '/topic', topic);
-app.use(config.prefix_api + '/house', house);
+app.use(config.prefix_api + '/topic', registerAuthenticationMiddleware, topic);
+app.use(config.prefix_api + '/house', registerAuthenticationMiddleware, house);
+app.use(config.prefix_api + '/review', registerAuthenticationMiddleware, review);
 
 app.use(function (req, res) {
     res.status(404).send({ url: req.originalUrl + ' not found' })

@@ -1,8 +1,10 @@
 import express from 'express';
-import houseController from '../controllers/house.controller'
+import houseCtrl from '../controllers/house.controller'
 
 const router = express.Router();
 
-router.route('/get_by_topic').post(houseController.getByTopic);
+router.route('/:id').get(houseCtrl.getById);
+router.route('/get_by_topic/:id').get(houseCtrl.getByTopicItem);
+router.route('/get_by_collection/:id').get(houseCtrl.getByCollection);
 
 export default router;

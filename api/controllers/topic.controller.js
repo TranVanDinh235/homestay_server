@@ -1,6 +1,6 @@
 import topicService from '../services/topic';
 
-const get = (req, res, next) => {
+const getAll = (req, res, next) => {
     topicService.getAll(req).then(response => {
         return res.json(response)
     }).catch(err => {
@@ -8,6 +8,15 @@ const get = (req, res, next) => {
     })
 };
 
+const getTopicItemByTopic = (req, res, next) => {
+    topicService.getTopicItemByTopic(req).then(response => {
+        return res.json(response)
+    }).catch(err => {
+        return res.json(err)
+    })
+};
+
 export default {
-    get
+    getAll,
+    getTopicItemByTopic
 }

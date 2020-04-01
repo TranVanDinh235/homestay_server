@@ -12,7 +12,7 @@ const getAll = (request) => {
     return new Promise((resolve, reject) => {
         db.exec_query(db.build_select_query(table)).then(res => {
             console.log(res);
-            if(res.data.success && res.data.rowCount > 0){
+            if (res.data.success && res.data.rowCount > 0) {
                 resolve({
                     status: true,
                     code: 'API-00000',
@@ -38,66 +38,38 @@ const getAll = (request) => {
     });
 };
 
-const getTopicItem = (request) => {
-    const key = new NodeRSA();
-    const table = 'topic_item';
-    key.setOptions({ encryptionScheme: 'pkcs1' });
-
-
+const getTopicItemByTopic = (req) => {
+    const item_id = req.params.id;
+    console.log(item_id)
     return new Promise((resolve, reject) => {
-        fs.readFile(path.join(CURRENT_WORKING_DIR, '/keys/private.pem'), 'utf-8', function (err, private_key) {
-            if (err) {
+        db.exec_query(db.getTopicItemByTopic(item_id)).then(res => {
+            if (res.data.success && res.data.rowCount > 0) {
+                resolve({
+                    status: true,
+                    code: 'API-00000',
+                    data: {
+                        topic_item: res.data.rows
+                    }
+                })
+            } else {
                 reject({
                     status: false,
-                    code: 'API-00102',
-                    message: 'Can not load private key'
+                    code: 'API-00001',
+                    data: "No result"
                 })
-            } else  {
-                request = request.replace(/(\r\n|\n|\r)/gm, '');
-                key.importKey(private_key, 'pkcs1-private');
-                let decrypted_data = key.decrypt(request, "base64");
-                decrypted_data = Buffer.from(decrypted_data, 'base64');
-                decrypted_data = decrypted_data.toString('utf-8');
-                decrypted_data = JSON.parse(decrypted_data);
-
-                if (utils.check_properties_validity(decrypted_data)) {
-                    db.exec_query(db.build_select_query(table, decrypted_data, false)).then(res => {
-                        console.log(res);
-                        if(res.data.success && res.data.rowCount > 0){
-                            resolve({
-                                status: true,
-                                code: 'API-00000',
-                                data: {
-                                    topics: res.data.rows
-                                }
-                            })
-                        } else {
-                            reject({
-                                status: false,
-                                code: 'API-00001',
-                                data: "No result"
-                            })
-                        }
-                    }).catch((err) => {
-                        console.log(err);
-                        reject({
-                            status: false,
-                            code: 'API-00402',
-                            data: "Error on find topic"
-                        })
-                    })
-                } else {
-                    reject({
-                        status: false,
-                        code: 'API-00401',
-                        message: 'Invalid input'
-                    })
-                }
             }
-        });
+        }).catch((err) => {
+            console.log(err);
+            reject({
+                status: false,
+                code: 'API-00402',
+                data: "Error on find topic"
+            })
+        })
     });
 };
 
 export default {
     getAll,
+    getTopicItemByTopic
 }

@@ -1,8 +1,10 @@
 import express from 'express';
-import topic from '../controllers/topic.controller'
+import topicCtrl from '../controllers/topic.controller'
 
 const router = express.Router();
 
-router.route('/get_all_topic').post(topic.get);
+router.route('/get_all_topic').get(topicCtrl.getAll);
+router.route('/get_topic_item/:id').get(topicCtrl.getTopicItemByTopic);
+// router.route('/topic_item/:id').get(topicCtrl.getTopicItemById);
 
 export default router;

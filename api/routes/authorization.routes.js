@@ -3,6 +3,6 @@ import authorizationController from '../controllers/authorization.controller'
 
 const router = express.Router();
 
-router.route('/get_authorization').post(authorizationController.get);
+router.route('/get_authorization').get(authorizationController.get);
 
 export default router;
