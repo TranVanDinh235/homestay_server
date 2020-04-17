@@ -3,8 +3,8 @@ import topicCtrl from '../controllers/topic.controller'
 
 const router = express.Router();
 
-router.route('/get_all_topic').get(topicCtrl.getAll);
-router.route('/get_topic_item/:id').get(topicCtrl.getTopicItemByTopic);
-// router.route('/topic_item/:id').get(topicCtrl.getTopicItemById);
+router.route('/').get(topicCtrl.getAll);
+router.route('/:id/topic-item').get(topicCtrl.getTopicItemByTopic);
+router.route('/topic-item').get(topicCtrl.getAllTopicItem);
 
 export default router;

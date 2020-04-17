@@ -1,4 +1,4 @@
-import authorizationService from '../services/authorization';
+import authorizationService from '../model/authorization';
 
 const get = (req, res, next) => {
     authorizationService.getInfo().then(response => {

@@ -1,23 +1,23 @@
-import reviewService from '../services/review';
+import reviewService from '../model/review';
 
-const getById = (req, res, next) => {
-    reviewService.getById(req).then(response => {
-        return res.json(response)
+const get = (req, res, next) => {
+    reviewService.get(req.params.id).then(review => {
+        return res.json(review)
     }).catch(err => {
         return res.json(err)
     })
 };
 
 const getByHouse = (req, res, next) => {
-    reviewService.getTopicItemByTopic(req).then(response => {
-        return res.json(response)
+    reviewService.getByHouse(req.params.id).then(reviews => {
+        return res.json(reviews)
     }).catch(err => {
         return res.json(err)
     })
 };
 
-const newReview = (req, res, next) => {
-    reviewService.newReview(req.body.data).then(response => {
+const insert = (req, res, next) => {
+    reviewService.insert(req.body.data).then(response => {
         return res.json(response)
     }).catch(err => {
         return res.json(err)
@@ -25,15 +25,15 @@ const newReview = (req, res, next) => {
 };
 
 const update = (req, res, next) => {
-    reviewService.update(req).then(response => {
+    reviewService.update(req.body.data).then(response => {
         return res.json(response)
     }).catch(err => {
         return res.json(err)
     })
 };
 
-const delReview = (req, res, next) => {
-    reviewService.delReview(req).then(response => {
+const remove = (req, res, next) => {
+    reviewService.remove(req.params.id).then(response => {
         return res.json(response)
     }).catch(err => {
         return res.json(err)
@@ -41,9 +41,9 @@ const delReview = (req, res, next) => {
 };
 
 export default {
-    getById,
+    get,
     getByHouse,
-    newReview,
+    insert,
     update,
-    delReview
+    remove,
 }

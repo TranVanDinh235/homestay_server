@@ -1,9 +1,9 @@
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
-var secret_key = process.env.SECRET_KEY;
+const secret_key = process.env.SECRET_KEY;
 
 const sign_token = (req, res) => {
-    var payload = {
+    const payload = {
         username: process.env.USER_API,
         password: process.env.PASS_API,
         organization: process.env.ORGANIZATION,
@@ -33,10 +33,10 @@ const sign_token = (req, res) => {
             message: 'Sign token failed! Please check the request'
         });
     }
-}
+};
 
 const verify_token = (req, res, next) => {
-    var token = req.headers['x-access-token'] || req.headers['authorization'];
+    let token = req.headers['x-access-token'] || req.headers['authorization'];
 
     if (token) {
         if (token.startsWith('Bearer ')) {
@@ -61,7 +61,7 @@ const verify_token = (req, res, next) => {
             message: 'Auth token is not supplied'
         });
     }
-}
+};
 
 export default {
     sign_token,

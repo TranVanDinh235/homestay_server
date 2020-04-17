@@ -8,6 +8,7 @@ import authorizationRoute from './api/routes/authorization.routes'
 import house from './api/routes/house.routes'
 import topic from './api/routes/topic.routes'
 import review from './api/routes/review.routes'
+import city from './api/routes/city.routes'
 
 const bodyParser = require('body-parser');
 
@@ -53,10 +54,15 @@ const registerAuthenticationMiddleware = (req, res, next) => {
     }
 };
 
-app.use(config.prefix_api + '/sign', authorizationRoute);
-app.use(config.prefix_api + '/topic', registerAuthenticationMiddleware, topic);
-app.use(config.prefix_api + '/house', registerAuthenticationMiddleware, house);
-app.use(config.prefix_api + '/review', registerAuthenticationMiddleware, review);
+app.use(config.prefix_api + '/authorization', authorizationRoute);
+// app.use(config.prefix_api + '/topic', registerAuthenticationMiddleware, topic);
+// app.use(config.prefix_api + '/house', registerAuthenticationMiddleware, house);
+// app.use(config.prefix_api + '/review', registerAuthenticationMiddleware, review);
+// app.use(config.prefix_api + '/city', registerAuthenticationMiddleware, city);
+app.use(config.prefix_api + '/topic', topic);
+app.use(config.prefix_api + '/house', house);
+app.use(config.prefix_api + '/review', review);
+app.use(config.prefix_api + '/city', city);
 
 app.use(function (req, res) {
     res.status(404).send({ url: req.originalUrl + ' not found' })
@@ -65,4 +71,4 @@ app.use(function (req, res) {
 app.listen(config.server_port);
 
 
-console.log('RESTful API server started on: ' + config.server_port);
+console.log('API server started on: ' + config.server_port);
