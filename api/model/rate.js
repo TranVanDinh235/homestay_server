@@ -1,10 +1,10 @@
-import db from '../helpers/db_homestay';
-import util from '../helpers/utils'
+const db = require('../helpers/db_homestay').db;
+const util = require ('../helpers/utils')
 
-const getRateByWeek = (house) => {
+module.exports.getRateByWeek = (house) => {
     const sql = "SELECT * FROM rate_by_week WHERE house_id = ? AND from_day <= ? AND to_day >= ?";
     return new Promise((resolve, reject) => {
-        db.pool.query(sql, [house.id, util.getDayOfWeek(), util.getDayOfWeek()], function (err, rates) {
+        db.query(sql, [house.id, util.getDayOfWeek(), util.getDayOfWeek()], function (err, rates) {
             if(err){
                 reject(err);
             } else {
@@ -17,10 +17,10 @@ const getRateByWeek = (house) => {
     });
 };
 
-const getRateSpecialDay = (house) => {
+module.exports.getRateSpecialDay = (house) => {
     const sql = "SELECT * FROM rate_special_day WHERE house_id = ? AND date = ?";
     return new Promise((resolve, reject) => {
-        db.pool.query(sql, [house.id, util.getTimeStartDay()], function (err, rates) {
+        db.query(sql, [house.id, util.getTimeStartDay()], function (err, rates) {
             if(err){
                 console.log(err);
                 reject(err);
@@ -34,7 +34,7 @@ const getRateSpecialDay = (house) => {
     });
 };
 
-const getRate = (house) => {
+module.exports.getRate = (house) => {
     return new Promise((resolve, reject) => {
         getRateSpecialDay(house)
             .then(house => getRateByWeek(house))
@@ -42,9 +42,3 @@ const getRate = (house) => {
             .catch(err => reject(err))
     })
 };
-
-export default {
-    getRateByWeek,
-    getRateSpecialDay,
-    getRate
-}

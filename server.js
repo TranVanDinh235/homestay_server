@@ -1,14 +1,14 @@
-import compress from 'compression'
-import helmet from 'helmet'
-import cors from 'cors'
+const compress = require('compression');
+const helmet = require('helmet');
+const cors = require('cors');
 const express = require('express');
 const app = express();
-import config from './api/helpers/config'
-import authorizationRoute from './api/routes/authorization.routes'
-import house from './api/routes/house.routes'
-import topic from './api/routes/topic.routes'
-import review from './api/routes/review.routes'
-import city from './api/routes/city.routes'
+const config = require('./api/helpers/config').config;
+const house = require('./api/routes/house.routes').router;
+const topic = require('./api/routes/topic.routes').router;
+const review = require('./api/routes/review.routes').router;
+const city = require('./api/routes/city.routes').router;
+const auth = require( './api/routes/AuthRoutes').router;
 
 const bodyParser = require('body-parser');
 
@@ -54,10 +54,11 @@ const registerAuthenticationMiddleware = (req, res, next) => {
     }
 };
 
-app.use(config.prefix_api + '/authorization', authorizationRoute);
+app.use(config.prefix_api + '/authorization', auth);
 // app.use(config.prefix_api + '/topic', registerAuthenticationMiddleware, topic);
 // app.use(config.prefix_api + '/house', registerAuthenticationMiddleware, house);
 // app.use(config.prefix_api + '/review', registerAuthenticationMiddleware, review);
+// app.use(config.prefix_api + '/city', registerAuthenticationMiddleware, city);
 // app.use(config.prefix_api + '/city', registerAuthenticationMiddleware, city);
 app.use(config.prefix_api + '/topic', topic);
 app.use(config.prefix_api + '/house', house);
@@ -69,6 +70,5 @@ app.use(function (req, res) {
 });
 
 app.listen(config.server_port);
-
 
 console.log('API server started on: ' + config.server_port);

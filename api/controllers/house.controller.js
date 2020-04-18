@@ -1,9 +1,9 @@
-import houseService from '../model/house';
-import topicService from '../model/topic';
-import cityService from '../model/city';
-import rateService from '../model/rate';
+const houseService = require('../model/house');
+const topicService = require('../model/topic');
+const cityService = require('../model/city');
+const rateService = require('../model/rate');
 
-const get = (req, res, next) => {
+module.exports.get = (req, res, next) => {
     houseService.get(req.params.id).then(house => {
         return res.json(house)
     }).catch(err => {
@@ -11,7 +11,7 @@ const get = (req, res, next) => {
     })
 };
 
-const getByTopicItem = (req, res, next) => {
+module.exports.getByTopicItem = (req, res, next) => {
     topicService.getTopicItemById(req.params.id)
         .then(topicItem => houseService.getByTopicItem(topicItem))
         .then(topicItem => {
@@ -39,7 +39,7 @@ const getByTopicItem = (req, res, next) => {
         })
 };
 
-const getByCollection = (req, res, next) => {
+module.exports.getByCollection = (req, res, next) => {
     houseService.getByCollection(req.params.id).then(houses => {
         return res.json(houses)
     }).catch(err => {
@@ -47,7 +47,7 @@ const getByCollection = (req, res, next) => {
     })
 };
 
-const getByCity = (req, res, next) => {
+module.exports.getByCity = (req, res, next) => {
     cityService.get(req.params.id)
         .then(city => houseService.getByCity(city))
         .then(city => {
@@ -74,10 +74,3 @@ const getByCity = (req, res, next) => {
             })
         })
 };
-
-export default {
-    get,
-    getByTopicItem,
-    getByCollection,
-    getByCity,
-}

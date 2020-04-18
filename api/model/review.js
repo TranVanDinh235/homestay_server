@@ -1,9 +1,9 @@
-import db from '../helpers/db_homestay'
+const db = require('../helpers/db_homestay').db;
 
-const get = (id) => {
+module.exports.get = (id) => {
     const sql = "SELECT * FROM review WHERE id = ?";
     return new Promise((resolve, reject) => {
-        db.pool.query(sql, id, function (err, reviews) {
+        db.query(sql, id, function (err, reviews) {
             if(err){
                 console.log(err);
                 reject(err);
@@ -14,10 +14,10 @@ const get = (id) => {
     });
 };
 
-const getByHouse = (houseId) => {
+module.exports.getByHouse = (houseId) => {
     const sql = "SELECT * FROM review WHERE house_id = ?";
     return new Promise((resolve, reject) => {
-        db.pool.query(sql, houseId, function (err, reviews) {
+        db.query(sql, houseId, function (err, reviews) {
             if(err){
                 console.log(err);
                 reject(err);
@@ -28,10 +28,10 @@ const getByHouse = (houseId) => {
     });
 };
 
-const insert = (review) => {
+module.exports.insert = (review) => {
     const sql = "INSERT INTO review(house_id, guest_id, content, time) VALUE (?, ?, ?, ?)";
     return new Promise((resolve, reject) => {
-        db.pool.query(sql, [review.house_id, review.guest_id, review.content, Date.now()/1000], function (err, review) {
+        db.query(sql, [review.house_id, review.guest_id, review.content, Date.now()/1000], function (err, review) {
             if(err){
                 console.log(err);
                 reject(err);
@@ -42,10 +42,10 @@ const insert = (review) => {
     });
 };
 
-const update = (review) => {
+module.exports.update = (review) => {
     const sql = "UPDATE review SET content = ?, time = ? WHERE id = ?";
     return new Promise((resolve, reject) => {
-        db.pool.query(sql, [review.content, Date.now()/1000, review.id], function (err, review) {
+        db.query(sql, [review.content, Date.now()/1000, review.id], function (err, review) {
             if(err){
                 console.log(err);
                 reject(err);
@@ -56,10 +56,10 @@ const update = (review) => {
     });
 };
 
-const remove = (review) => {
+module.exports.remove = (review) => {
     const sql = "DELETE FROM review WHERE id = ";
     return new Promise((resolve, reject) => {
-        db.pool.query(sql, review.id, function (err, review) {
+        db.query(sql, review.id, function (err, review) {
             if(err){
                 console.log(err);
                 reject(err);
@@ -69,12 +69,3 @@ const remove = (review) => {
         })
     });
 };
-
-
-export default {
-    get,
-    getByHouse,
-    insert,
-    update,
-    remove
-}

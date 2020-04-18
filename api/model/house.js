@@ -1,9 +1,9 @@
-import db from '../helpers/db_homestay';
+const db = require('../helpers/db_homestay').db;
 
-const get = (houseId) => {
+module.exports.get = (houseId) => {
     const sql = "SELECT * FROM houses WHERE id = ? ";
     return new Promise((resolve, reject) => {
-        db.pool.query(sql, houseId, function (err, houses) {
+        db.query(sql, houseId, function (err, houses) {
             if(err){
                 console.log(err);
                 reject(err);
@@ -14,10 +14,10 @@ const get = (houseId) => {
     });
 };
 
-const getByTopicItem = (topicItem) => {
+module.exports.getByTopicItem = (topicItem) => {
     const sql = "SELECT h.*, th.topic_item_id AS topic_item_id FROM topic_item_house th INNER JOIN houses h ON th.house_id = h.id WHERE th.topic_item_id = ?";
     return new Promise((resolve, reject) => {
-        db.pool.query(sql, topicItem.id, function (err, houses) {
+        db.query(sql, topicItem.id, function (err, houses) {
             if(err){
                 console.log(err);
                 reject(err);
@@ -46,10 +46,10 @@ const getByTopicItem = (topicItem) => {
     });
 };
 
-const getByCollection = (guestId) => {
+module.exports.getByCollection = (guestId) => {
     const sql = "SELECT h.*, c.guest_id FROM collection c INNER JOIN houses h ON c.house_id = h.id WHERE c.guest_id = ?";
     return new Promise((resolve, reject) => {
-        db.pool.query(sql, guestId, function (err, houses) {
+        db.query(sql, guestId, function (err, houses) {
             if(err){
                 console.log(err);
                 reject(err);
@@ -60,10 +60,10 @@ const getByCollection = (guestId) => {
     });
 };
 
-const getByCity = (city) => {
+module.exports.getByCity = (city) => {
     const sql = "SELECT h.*, c.name AS city_name, c.photo AS city_photo FROM city c INNER JOIN houses h ON c.id = h.city_id WHERE c.id = ?";
     return new Promise((resolve, reject) => {
-        db.pool.query(sql, city.id, function (err, houses) {
+        db.query(sql, city.id, function (err, houses) {
             if(err){
                 console.log(err);
                 reject(err);
@@ -91,10 +91,3 @@ const getByCity = (city) => {
         })
     });
 };
-
-export default {
-    get,
-    getByTopicItem,
-    getByCollection,
-    getByCity,
-}
