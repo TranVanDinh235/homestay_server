@@ -1,10 +1,10 @@
-import mysql from 'mysql'
-import config from '../helpers/config'
-import util from 'util';
+const mysql = require ('mysql');
+const config = require ('./config').config;
+const util = require ('util');
 
 const pool = mysql.createPool({
     connectionLimit: 10,
-    host: config.mysql_db.host,
+    host: config.host,
     user: config.mysql_db.user,
     password: config.mysql_db.password,
     database: config.mysql_db.database,
@@ -31,6 +31,4 @@ pool.getConnection((err, connection) => {
 
 pool.query = util.promisify(pool.query);
 
-export default {
-    pool,
-};
+module.exports.db = pool;

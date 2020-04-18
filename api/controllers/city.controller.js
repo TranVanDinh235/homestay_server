@@ -1,6 +1,6 @@
-import cityService from '../model/city';
+const cityService = require('../model/city');
 
-const getAll = (req, res, next) => {
+module.exports.getAll = (req, res, next) => {
     cityService.getAll().then(cites => {
         return res.json({
             status_code: 200,
@@ -15,7 +15,7 @@ const getAll = (req, res, next) => {
     })
 };
 
-const get = (req, res, next) => {
+module.exports.get = (req, res, next) => {
     cityService.get(req.params.id).then(city => {
         return res.json({
             status_code: 200,
@@ -29,8 +29,3 @@ const get = (req, res, next) => {
         })
     })
 };
-
-export default {
-    getAll,
-    get
-}

@@ -1,11 +1,11 @@
-import db from '../helpers/db_homestay'
+const db = require('../helpers/db_homestay').db;
 
-const getAll = () => {
+module.exports.getAll = () => {
     const sql = 'SELECT * FROM topic';
     return new Promise((resolve, reject) => {
-        db.pool.query(sql,[], function (err, topics) {
+        db.query(sql,[], function (err, topics) {
             if(err){
-                console.log(err)
+                console.log(err);
                 reject(err);
             } else {
                 resolve(topics);
@@ -14,11 +14,11 @@ const getAll = () => {
     });
 };
 
-const getTopicItemByTopic = (topicId) => {
+module.exports.getTopicItemByTopic = (topicId) => {
     const sql = "SELECT * FROM topic_item WHERE topic_id = ?";
 
     return new Promise((resolve, reject) => {
-        db.pool.query(sql, topicId, function (err, topicItems) {
+        db.query(sql, topicId, function (err, topicItems) {
             if(err){
                 console.log(err);
                 reject(err);
@@ -29,11 +29,11 @@ const getTopicItemByTopic = (topicId) => {
     });
 };
 
-const getTopicItemById = (topicItemId) => {
+module.exports.getTopicItemById = (topicItemId) => {
     const sql = "SELECT * FROM topic_item WHERE id = ?";
 
     return new Promise((resolve, reject) => {
-        db.pool.query(sql, topicItemId, function (err, topicItems) {
+        db.query(sql, topicItemId, function (err, topicItems) {
             if(err){
                 console.log(err);
                 reject(err);
@@ -43,9 +43,3 @@ const getTopicItemById = (topicItemId) => {
         })
     });
 };
-
-export default {
-    getAll,
-    getTopicItemByTopic,
-    getTopicItemById
-}

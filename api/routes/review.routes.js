@@ -1,5 +1,5 @@
-import express from 'express';
-import reviewCtrl from '../controllers/review.controller'
+const express = require('express');
+const reviewCtrl = require('../controllers/review.controller');
 
 const router = express.Router();
 
@@ -9,4 +9,4 @@ router.route('/').post(reviewCtrl.insert);
 router.route('/:id').put(reviewCtrl.update);
 router.route('/:id').delete(reviewCtrl.remove);
 
-export default router;
+module.exports.router = router;

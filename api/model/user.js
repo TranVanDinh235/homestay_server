@@ -1,9 +1,9 @@
-import db from '../helpers/db_homestay';
+const db = require('../helpers/db_homestay').db;
 
-const get = function(userId){
+module.exports.get = function(userId){
     const sql = "SELECT * FORM user WHERE id = ?";
     return new Promise((resolve, reject) => {
-        db.pool.query(sql, userId, function (err, user) {
+        db.query(sql, userId, function (err, user) {
             if(err){
                 console.log(err);
                 reject(err);
@@ -13,7 +13,3 @@ const get = function(userId){
         })
     })
 };
-
-export default {
-    get,
-}

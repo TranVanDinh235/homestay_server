@@ -1,6 +1,4 @@
 const jwt = require("jsonwebtoken");
-
-const jwt = require("jsonwebtoken");
 /**
  * private function generateToken
  * @param user

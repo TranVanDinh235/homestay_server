@@ -1,10 +1,10 @@
-import db from '../helpers/db_homestay';
+const db = require('../helpers/db_homestay').db;
 
-const getAll = () => {
+module.exports.getAll = () => {
     const sql = "SELECT * FROM city";
 
     return new Promise((resolve, reject) => {
-        db.pool.query(sql, [], function (err, cites) {
+        db.query(sql, [], function (err, cites) {
             if (err) {
                 console.log(err);
                 reject(err);
@@ -15,11 +15,11 @@ const getAll = () => {
     });
 };
 
-const get = (cityId) => {
+module.exports.get = (cityId) => {
     const sql = "SELECT * FROM city WHERE id = ?";
 
     return new Promise((resolve, reject) => {
-        db.pool.query(sql, cityId, function (err, cites) {
+        db.query(sql, cityId, function (err, cites) {
             if (err) {
                 console.log(err);
                 reject(err);
@@ -29,8 +29,3 @@ const get = (cityId) => {
         })
     });
 };
-
-export default {
-    getAll,
-    get
-}

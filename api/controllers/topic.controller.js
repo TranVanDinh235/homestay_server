@@ -1,6 +1,6 @@
-import topicService from '../model/topic';
+const topicService = require('../model/topic');
 
-const getAll = (req, res, next) => {
+module.exports.getAll = (req, res, next) => {
     topicService.getAll().then(response => {
         return res.json(response)
     }).catch(err => {
@@ -8,7 +8,7 @@ const getAll = (req, res, next) => {
     })
 };
 
-const getTopicItemByTopic = (req, res, next) => {
+module.exports.getTopicItemByTopic = (req, res, next) => {
     topicService.getTopicItemByTopic(req.params.id).then(topicItems => {
         return res.json(topicItems)
     }).catch(err => {
@@ -16,7 +16,7 @@ const getTopicItemByTopic = (req, res, next) => {
     })
 };
 
-const getAllTopicItem = (req, res, next) => {
+module.exports.getAllTopicItem = (req, res, next) => {
     topicService.getAll().then(topics => {
         let promises = [];
         topics.forEach(topic => {
@@ -39,9 +39,3 @@ const getAllTopicItem = (req, res, next) => {
         })
     })
 };
-
-export default {
-    getAll,
-    getTopicItemByTopic,
-    getAllTopicItem
-}
