@@ -8,7 +8,10 @@ const house = require('./api/routes/house.routes').router;
 const topic = require('./api/routes/topic.routes').router;
 const review = require('./api/routes/review.routes').router;
 const city = require('./api/routes/city.routes').router;
+const user = require('./api/routes/user.routes').router;
 const auth = require( './api/routes/AuthRoutes').router;
+
+const AuthMiddleware = require('./api/middleware/AuthMiddleware');
 
 const bodyParser = require('body-parser');
 
@@ -28,33 +31,7 @@ app.use((req, res, next) => {
 });
 
 
-const registerAuthenticationMiddleware = (req, res, next) => {
-    let token = req.headers['x-access-token'] || req.headers['authorization'];
-
-    if (token) {
-        if (token.startsWith('Bearer ')) {
-            // Remove Bearer from string
-            token = token.slice(7, token.length)
-        }
-
-        const jwt = require('jsonwebtoken');
-        jwt.verify(token, config.secret_key, function (err, decoded) {
-            if (err) {
-                return res.sendStatus(400)
-            } else {
-                if (decoded.access_token_key === config.access_token_key) {
-                    next()
-                } else {
-                    return res.sendStatus(400)
-                }
-            }
-        })
-    } else {
-        return res.sendStatus(400)
-    }
-};
-
-app.use(config.prefix_api + '/authorization', auth);
+app.use(config.prefix_api + '/auth', auth);
 // app.use(config.prefix_api + '/topic', registerAuthenticationMiddleware, topic);
 // app.use(config.prefix_api + '/house', registerAuthenticationMiddleware, house);
 // app.use(config.prefix_api + '/review', registerAuthenticationMiddleware, review);
@@ -63,6 +40,7 @@ app.use(config.prefix_api + '/authorization', auth);
 app.use(config.prefix_api + '/topic', topic);
 app.use(config.prefix_api + '/house', house);
 app.use(config.prefix_api + '/review', review);
+app.use(config.prefix_api + '/user', AuthMiddleware.isAuth, user);
 app.use(config.prefix_api + '/city', city);
 
 app.use(function (req, res) {

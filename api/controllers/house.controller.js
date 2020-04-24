@@ -20,8 +20,7 @@ module.exports.getByTopicItem = (req, res, next) => {
                     topicItem.houses = houses;
                     return res.json({
                         status_code: 200,
-                        data: topicItem,
-                        error: ""
+                        topics: topicItem,
                     })
                 })
                 .catch(err => {
@@ -56,8 +55,7 @@ module.exports.getByCity = (req, res, next) => {
                     city.houses = houses;
                     return res.json({
                         status_code: 200,
-                        data: city,
-                        error: ""
+                        cities: city,
                     })
                 })
                 .catch(err => {

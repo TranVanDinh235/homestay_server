@@ -4,7 +4,7 @@ module.exports.getAll = (req, res, next) => {
     cityService.getAll().then(cites => {
         return res.json({
             status_code: 200,
-            data: cites,
+            cities: cites,
             error: ""
         })
     }).catch(err => {
@@ -19,7 +19,7 @@ module.exports.get = (req, res, next) => {
     cityService.get(req.params.id).then(city => {
         return res.json({
             status_code: 200,
-            data: city,
+            cities: city,
             error: ""
         })
     }).catch(err => {

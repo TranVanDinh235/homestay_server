@@ -1,7 +1,7 @@
 const jwtHelper = require("../helpers/jwt.helper");
 const debug = console.log.bind(console);
 
-const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || "access-token-secret-HOMESTAY-VANDINH-160420QW";
+const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || "access-token-secret";
 
 let isAuth = async (req, res, next) => {
 
@@ -9,17 +9,12 @@ let isAuth = async (req, res, next) => {
     if (tokenFromClient) {
         // Nếu tồn tại token
         try {
-            // Thực hiện giải mã token xem có hợp lệ hay không?
             const decoded = await jwtHelper.verifyToken(tokenFromClient, accessTokenSecret);
 
-            // Nếu token hợp lệ, lưu thông tin giải mã được vào đối tượng req, dùng cho các xử lý ở phía sau.
             req.jwtDecoded = decoded;
 
-            // Cho phép req đi tiếp sang controller.
             next();
         } catch (error) {
-
-            debug("Error while verify token:", error);
             return res.status(401).json({
                 message: 'Unauthorized.',
             });

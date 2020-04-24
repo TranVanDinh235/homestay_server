@@ -24,8 +24,8 @@ module.exports.config = {
         client_secret: "lf0lJJwz0NRm3nRFhl3HR6mh"
     },
     facebook: {
-        client_id: "233136474065-5s76pvccvu8l1ahujm9jt36h0ogh8t0k.apps.googleusercontent.com",
-        client_secret: "lf0lJJwz0NRm3nRFhl3HR6mh"
+        client_id: "1116456172023199",
+        client_secret: "79000525f5f319b9145c79a93bac594d"
     }
 };
 
