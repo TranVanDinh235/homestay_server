@@ -21,7 +21,7 @@ module.exports.getUser = ( code ) => {
         .then( response => response.json() )
         .then( response => {
             //check the audience of the token
-            const { app_id, is_valid, user_id } = response.data
+            const { app_id, is_valid, user_id } = response.data;
             if ( app_id !== client_id ) {
                 throw new Error( 'invalid app id: expected [' + client_id + '] but was [' + app_id + ']' );
             }
@@ -52,6 +52,4 @@ module.exports.getUser = ( code ) => {
         .catch( err => {
             throw new Error( "error while authenticating facebook user: " + JSON.stringify( err ) );
         } );
-
-
 };

@@ -1,23 +1,11 @@
 const jwt = require("jsonwebtoken");
-/**
- * private function generateToken
- * @param user
- * @param secretSignature
- * @param tokenLife
- */
+
 let generateToken = (user, secretSignature, tokenLife) => {
     return new Promise((resolve, reject) => {
 
-        // Du lieu luu vao token
-        const userData = {
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-        };
-
         // Thực hiện ký và tạo token
         jwt.sign(
-            {data: userData},
+            {data: user},
             secretSignature,
             {
                 algorithm: "HS256",
@@ -34,6 +22,11 @@ let generateToken = (user, secretSignature, tokenLife) => {
 
 let verifyToken = (token, secretKey) => {
     return new Promise((resolve, reject) => {
+        if (token.startsWith('Bearer ')) {
+            // Remove Bearer from string
+            token = token.slice(7, token.length);
+        }
+
         jwt.verify(token, secretKey, (error, decoded) => {
             if (error) {
                 return reject(error);
@@ -44,6 +37,6 @@ let verifyToken = (token, secretKey) => {
 };
 
 module.exports = {
-    generateToken: generateToken,
-    verifyToken: verifyToken,
+    generateToken,
+    verifyToken,
 };

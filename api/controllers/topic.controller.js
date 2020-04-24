@@ -28,8 +28,7 @@ module.exports.getAllTopicItem = (req, res, next) => {
             }
             return res.json({
                 status_code: 200,
-                data: topics,
-                error: ""
+                topics: topics,
             });
         });
     }).catch(err => {
