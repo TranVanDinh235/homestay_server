@@ -1,3 +1,4 @@
+require('dotenv').config();
 const compress = require('compression');
 const helmet = require('helmet');
 const cors = require('cors');

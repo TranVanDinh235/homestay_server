@@ -1,6 +1,6 @@
 module.exports.config = {
     server_host: process.env.SERVER_HOST || 'localhost',
-    server_port: process.env.SERVER_PORT || 3000,
+    server_port: process.env.SERVER_PORT,
     prefix_api: process.env.PREFIX_API || '/homestay/v1/api',
 
     secret_key: process.env.SECRET_KEY || 'SECRET_KEY',

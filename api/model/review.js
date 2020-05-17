@@ -25,6 +25,22 @@ module.exports.getByHouse = (houseId) => {
                 resolve(reviews);
             }
         })
+    })
+};
+
+module.exports.getNumOfReview = (house) => {
+    const sql = "SELECT COUNT(*) AS total_review, AVG(num_of_stars) AS num_of_stars FROM review WHERE house_id = ?";
+    return new Promise((resolve, reject) => {
+        db.query(sql, [house.id], function (err, reviews) {
+            if(err){
+                console.log(err);
+                reject(err);
+            } else {
+                house.total_review = reviews[0].total_review;
+                house.num_of_stars = reviews[0].num_of_stars;
+                resolve(house);
+            }
+        })
     });
 };
 
